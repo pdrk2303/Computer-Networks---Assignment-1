@@ -2,7 +2,7 @@
 
 import subprocess
 
-def traceroute(destination, max_hops):
+def tracert(destination, max_hops):
     
     for ttl in range(1, max_hops + 1):
         try:
@@ -26,7 +26,7 @@ def traceroute(destination, max_hops):
             
     print("Trace Complete.")
             
-traceroute("www.iitd.ac.in", 15)
+tracert("www.iitd.ac.in", 15)
 
 
 
