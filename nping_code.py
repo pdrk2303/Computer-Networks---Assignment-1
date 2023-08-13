@@ -11,7 +11,7 @@ def extract_ip(line):
     return None
 
 def extract_rtt(line):
-    match = re.search(r"Max rtt: (\d+\.\d+)ms", line)
+    match = re.search(r"Avg rtt: (\d+\.\d+)ms", line)
     if match:
         return match.group(1)
     return None
@@ -25,6 +25,7 @@ def extract_dest_ip(line):
 
 def traceroute(destination, max_hops=30):
     print(f"Tracing route to {destination} over a maximum of {max_hops} hops:")
+    flag = False
     for ttl in range(1, max_hops + 1):
         cmd = f"nping -c 1 --ttl {ttl} {destination}"
         try:
@@ -56,6 +57,7 @@ def traceroute(destination, max_hops=30):
                         print(f"{ttl} * {hop_ip}")
                         
                     if hop_ip == dest_ip:
+                        flag = True
                         print("Trace Complete.")
                         return
                     break
@@ -68,8 +70,12 @@ def traceroute(destination, max_hops=30):
         except subprocess.CalledProcessError:
             print(f"{ttl}: Error executing nping command")
             
+    if not flag:
+        print("Trace Complete.")
+        return
+            
 
-target_host = "www.google.com"
+target_host = "www.uct.ac.za"
 traceroute(target_host)
 
 
